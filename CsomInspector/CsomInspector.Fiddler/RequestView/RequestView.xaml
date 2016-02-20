@@ -1,0 +1,65 @@
+﻿<UserControl
+	x:Class="CsomInspector.Fiddler.RequestView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<UserControl.Resources>
+		<Style TargetType="TreeViewItem">
+			<Setter Property="IsExpanded" Value="True" />
+		</Style>
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Grid
+			Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Label
+				Grid.Column="0"
+				Content="Application name" />
+			<TextBox
+				Grid.Column="1"
+				Text="{Binding Request.ApplicationName, Mode=OneWay}"
+				IsReadOnly="True" />
+
+			<Label
+				Grid.Column="2"
+				Content="Library version" />
+			<TextBox
+				Grid.Column="3"
+				Text="{Binding Request.VersionDisplayName, Mode=OneWay}"
+				IsReadOnly="True" />
+
+			<Label
+				Grid.Column="4"
+				Content="Schema version" />
+			<TextBox
+				Grid.Column="5"
+				Text="{Binding Request.SchemaVersion, Mode=OneWay}"
+				IsReadOnly="True" />
+		</Grid>
+
+		<TreeView
+			Grid.Row="1"
+			ItemsSource="{Binding Actions, Mode=OneWay}"
+			FontFamily="Consolas">
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
+					<TreeViewItem Header="{Binding}" />
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+	</Grid>
+</UserControl>
