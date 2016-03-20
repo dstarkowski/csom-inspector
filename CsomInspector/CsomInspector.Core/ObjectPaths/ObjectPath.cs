@@ -7,17 +7,15 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public abstract class ObjectPath : IObjectTreeNode
 	{
-		protected const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
-
 		protected ObjectPath()
 		{
 		}
 
-		public abstract String Type { get; }
+		protected const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 
 		public virtual IEnumerable<IObjectTreeNode> Children => Enumerable.Empty<IObjectTreeNode>();
 
-		public override String ToString() => Type;
+		public abstract String Type { get; }
 
 		public static IEnumerable<ObjectPath> FromXml(IEnumerable<XElement> pathElements, Int32 pathId)
 		{
@@ -36,6 +34,8 @@ namespace CsomInspector.Core.ObjectPaths
 			return results;
 		}
 
+		public override String ToString() => Type;
+
 		private static ObjectPath CreatePath(XElement element)
 		{
 			switch (element.Name.LocalName)
@@ -50,6 +50,8 @@ namespace CsomInspector.Core.ObjectPaths
 					return StaticMethod.FromXml(element);
 				case "Constructor":
 					return Constructor.FromXml(element);
+				case "Identity":
+					return Identity.FromXml(element);
 				default:
 					return GenericObjectPath.FromXml(element);
 			}

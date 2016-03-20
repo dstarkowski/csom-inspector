@@ -50,6 +50,8 @@
     <Compile Include="Inspector.cs" />
     <Compile Include="ObjectPaths\Constructor.cs" />
     <Compile Include="ObjectPaths\GenericObjectPath.cs" />
+    <Compile Include="ObjectPaths\Identity.cs" />
+    <Compile Include="ObjectPaths\IdentityParameter.cs" />
     <Compile Include="ObjectPaths\Method.cs" />
     <Compile Include="ObjectPaths\ObjectPath.cs" />
     <Compile Include="ObjectPaths\Parameter.cs" />
