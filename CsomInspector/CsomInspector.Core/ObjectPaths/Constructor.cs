@@ -12,7 +12,7 @@ namespace CsomInspector.Core.ObjectPaths
 			TypeId = Guid.Parse(typeId);
 		}
 
-		public String TypeName => TypeMappingHelper.GetTypeName(TypeId);
+		public String TypeName => TypeMappings.Current.Get(TypeId);
 		public Guid TypeId { get; private set; }
 
 		public override String Type => "Constructor";

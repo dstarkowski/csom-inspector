@@ -14,7 +14,7 @@ namespace CsomInspector.Core.ObjectPaths
 		public override String Type => "Static property";
 		public String Name { get; private set; }
 		public Guid TypeId { get; private set; }
-		public String TypeName => TypeMappingHelper.GetTypeName(TypeId);
+		public String TypeName => TypeMappings.Current.Get(TypeId);
 
 		public override String ToString() => $"{TypeName}.{Name}";
 

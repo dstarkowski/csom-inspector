@@ -56,7 +56,7 @@ namespace CsomInspector.Core.ObjectPaths
 				else
 				{
 					var typeIdAttribute = element.Attribute(XName.Get("TypeId"));
-					var typeName = TypeMappingHelper.GetTypeName(Guid.Parse(typeIdAttribute.Value));
+					var typeName = TypeMappings.Current.Get(Guid.Parse(typeIdAttribute.Value));
 
 					var propertyElements = element.Elements(XName.Get("Property", _elementNamespace));
 					var properties = ParameterProperty.FromXml(propertyElements);
