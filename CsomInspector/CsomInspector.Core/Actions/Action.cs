@@ -50,7 +50,7 @@ namespace CsomInspector.Core.Actions
 				case "Query":
 					return Query.FromXml(element);
 				default:
-					return new Action(element.Name.LocalName);
+					return GenericAction.FromXml(element);
 			}
 		}
 

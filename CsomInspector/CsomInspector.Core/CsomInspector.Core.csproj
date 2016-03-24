@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\ChildItemQuery.cs" />
+    <Compile Include="Actions\GenericAction.cs" />
     <Compile Include="Actions\ObjectIdentityQuery.cs" />
     <Compile Include="Actions\ObjectPathAction.cs" />
     <Compile Include="Actions\Query.cs" />
