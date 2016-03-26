@@ -5,11 +5,9 @@ using System.Windows.Forms.Integration;
 
 namespace CsomInspector.Fiddler
 {
-	public class Extension : Inspector2, IRequestInspector2
+	public class Extension : IFiddlerExtension
 	{
 		private RequestViewModel _viewModel;
-
-		public Boolean bDirty => false;
 
 		public Byte[] body
 		{
@@ -23,11 +21,9 @@ namespace CsomInspector.Fiddler
 			}
 		}
 
-		public Boolean bReadOnly { get; set; }
-
 		public HTTPRequestHeaders headers { get; set; }
 
-		public override void AddToTab(TabPage tab)
+		public void OnLoad()
 		{
 			var view = new RequestView();
 			_viewModel = new RequestViewModel();
@@ -37,14 +33,24 @@ namespace CsomInspector.Fiddler
 			host.Dock = DockStyle.Fill;
 			host.Child = view;
 
-			tab.Text = "CSOM inspector";
+			var tab = new TabPage("CSOM inspector");
 			tab.Controls.Add(host);
+
+			FiddlerApplication.UI.tabsViews.TabPages.Add(tab);
+			FiddlerApplication.CalculateReport += OnSelectionChanged;
 		}
 
-		public void Clear()
+		private void OnSelectionChanged(Session[] sessions)
+		{
+			if (sessions != null && sessions.Length == 1)
+			{
+				headers = sessions[0].RequestHeaders;
+				body = sessions[0].RequestBody;
+			}
+		}
+
+		public void OnBeforeUnload()
 		{
 		}
-
-		public override Int32 GetOrder() => 1000;
 	}
 }
