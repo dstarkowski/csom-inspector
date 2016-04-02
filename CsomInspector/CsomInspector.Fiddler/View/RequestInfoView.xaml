@@ -4,11 +4,14 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:CsomInspector.Fiddler.View">
 
-	<Grid
-		Grid.Row="0">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
@@ -16,27 +19,49 @@
 		</Grid.ColumnDefinitions>
 
 		<Label
+			Grid.Row="0"
 			Grid.Column="0"
 			Content="Application name" />
 		<TextBox
+			Grid.Row="0"
 			Grid.Column="1"
-			Text="{Binding Request.ApplicationName, Mode=OneWay}"
+			Text="{Binding ApplicationName, Mode=OneWay}"
 			IsReadOnly="True" />
 
 		<Label
+			Grid.Row="1"
+			Grid.Column="0"
+			Content="Correlation ID"/>
+		<TextBox
+			Grid.Row="1"
+			Grid.Column="1"
+			Text="{Binding CorrelationId, Mode=OneWay}"
+			IsReadOnly="True"/>
+
+		<Label
+			Grid.Row="0"
 			Grid.Column="2"
-			Content="Library version" />
+			Content="Client library version" />
 		<TextBox
+			Grid.Row="0"
 			Grid.Column="3"
-			Text="{Binding Request.VersionDisplayName, Mode=OneWay}"
+			Text="{Binding ClientLibraryVersion, Mode=OneWay}"
 			IsReadOnly="True" />
 
 		<Label
-			Grid.Column="4"
-			Content="Schema version" />
+			Grid.Row="1"
+			Grid.Column="2"
+			Content="Server library version" />
 		<TextBox
-			Grid.Column="5"
-			Text="{Binding Request.SchemaVersion, Mode=OneWay}"
+			Grid.Row="1"
+			Grid.Column="3"
+			Text="{Binding ServerLibraryVersion, Mode=OneWay}"
 			IsReadOnly="True" />
+
+		<TextBox
+			Grid.Row="2"
+			Grid.Column="0" Grid.ColumnSpan="4"
+			Text="Error info"
+			Visibility="{Binding ErrorInfoVisibility, Mode=OneWay}"/>
 	</Grid>
 </UserControl>

@@ -5,15 +5,15 @@ namespace CsomInspector.Core
 {
 	public class Request
 	{
-		private const String _elementName = "Request";
-		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
-
-		private Request(String applicationName, String libraryVersion, String schemaVersion)
+		private Request(String applicationName, String libraryVersion)
 		{
 			ApplicationName = applicationName ?? String.Empty;
 			LibraryVersion = new Version(libraryVersion) ?? new Version();
-			SchemaVersion = new Version(schemaVersion) ?? new Version();
 		}
+
+		private const String _elementName = "Request";
+
+		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 
 		public String ApplicationName { get; private set; }
 
@@ -37,8 +37,6 @@ namespace CsomInspector.Core
 			}
 		}
 
-		public Version SchemaVersion { get; private set; }
-
 		public static Request FromXml(XElement element)
 		{
 			if (element == null)
@@ -54,9 +52,8 @@ namespace CsomInspector.Core
 
 			var applicationName = element.Attribute(XName.Get("ApplicationName"));
 			var libraryVersion = element.Attribute(XName.Get("LibraryVersion"));
-			var schemaVersion = element.Attribute(XName.Get("SchemaVersion"));
 
-			var request = new Request(applicationName?.Value, libraryVersion?.Value, schemaVersion?.Value);
+			var request = new Request(applicationName?.Value, libraryVersion?.Value);
 
 			return request;
 		}

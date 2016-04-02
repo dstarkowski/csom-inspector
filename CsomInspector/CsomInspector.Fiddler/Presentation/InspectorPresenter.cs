@@ -1,6 +1,7 @@
 ﻿using System;
 using CsomInspector.Fiddler.View;
 using Fiddler;
+using CsomInspector.Core;
 
 namespace CsomInspector.Fiddler.Presentation
 {
@@ -9,12 +10,14 @@ namespace CsomInspector.Fiddler.Presentation
 		public InspectorPresenter()
 		{
 			RequestViewModel = new RequestViewModel();
+			RequestInfoViewModel = new RequestInfoViewModel();
 
 			View = new InspectorView();
 			View.DataContext = this;
 		}
 
 		public RequestViewModel RequestViewModel { get; private set; }
+		public RequestInfoViewModel RequestInfoViewModel { get; private set; }
 
 		public InspectorView View { get; private set; }
 
@@ -25,11 +28,26 @@ namespace CsomInspector.Fiddler.Presentation
 			if (state == InspectorState.Single)
 			{
 				//View.ShowInspector();
-				RequestViewModel.SetSession(sessions[0]);
+				InspectSession(sessions);
 			}
 			else {
 				//View.ShowError(state);
 			}
+		}
+
+		private void InspectSession(Session[] sessions)
+		{
+			var session = sessions[0];
+			var requestBody = session.GetRequestBodyAsString();
+			var responseBody = session.GetResponseBodyAsString();
+
+			var inspector = new Inspector(requestBody, responseBody);
+			var actions = inspector.GetActionsData();
+			var requestData = inspector.GetRequestData();
+			var responseData = inspector.GetResponseData();
+			
+			RequestViewModel.Actions = actions;
+			RequestInfoViewModel.SetSessionData(requestData, responseData);
 		}
 
 		private InspectorState ValidateSessions(Session[] sessions)

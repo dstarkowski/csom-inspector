@@ -7,14 +7,15 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="1*" />
 		</Grid.RowDefinitions>
 
 		<local:RequestInfoView
-			Grid.Row="0"/>
+			Grid.Row="0"
+			DataContext="{Binding RequestInfoViewModel, Mode=OneTime}"/>
 
 		<local:RequestView
-			DataContext="{Binding RequestViewModel, Mode=OneTime}"
-			Grid.Row="1"/>
+			Grid.Row="1"
+			DataContext="{Binding RequestViewModel, Mode=OneTime}"/>
 	</Grid>
 </UserControl>
