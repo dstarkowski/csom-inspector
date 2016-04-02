@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CsomInspector.Fiddler
+namespace CsomInspector.Fiddler.View
 {
 	public partial class RequestView : UserControl
 	{

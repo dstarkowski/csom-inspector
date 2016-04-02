@@ -1,5 +1,5 @@
-﻿using Fiddler;
-using System;
+﻿using CsomInspector.Fiddler.Presentation;
+using Fiddler;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
@@ -7,50 +7,30 @@ namespace CsomInspector.Fiddler
 {
 	public class Extension : IFiddlerExtension
 	{
-		private RequestViewModel _viewModel;
+		private InspectorPresenter _presenter;
 
-		public Byte[] body
+		public void OnBeforeUnload()
 		{
-			get
-			{
-				return null;
-			}
-			set
-			{
-				_viewModel.SetBody(value, headers);
-			}
 		}
-
-		public HTTPRequestHeaders headers { get; set; }
 
 		public void OnLoad()
 		{
-			var view = new RequestView();
-			_viewModel = new RequestViewModel();
-			view.DataContext = _viewModel;
+			_presenter = new InspectorPresenter();
 
 			var host = new ElementHost();
 			host.Dock = DockStyle.Fill;
-			host.Child = view;
+			host.Child = _presenter.View;
 
 			var tab = new TabPage("CSOM inspector");
 			tab.Controls.Add(host);
 
 			FiddlerApplication.UI.tabsViews.TabPages.Add(tab);
-			FiddlerApplication.CalculateReport += OnSelectionChanged;
+			FiddlerApplication.CalculateReport += OnSesionChanged;
 		}
 
-		private void OnSelectionChanged(Session[] sessions)
+		private void OnSesionChanged(Session[] sessions)
 		{
-			if (sessions != null && sessions.Length == 1)
-			{
-				headers = sessions[0].RequestHeaders;
-				body = sessions[0].RequestBody;
-			}
-		}
-
-		public void OnBeforeUnload()
-		{
+			_presenter.SetSession(sessions);
 		}
 	}
 }
