@@ -24,6 +24,8 @@ namespace CsomInspector.Core.Actions
 
 		internal static GenericAction FromXml(XElement actionElement)
 		{
+			var name = actionElement.Name.LocalName;
+
 			var attributes = actionElement
 				.Attributes()
 				.Where(a => a.Name.LocalName != "Id" && a.Name.LocalName != "ObjectPathId")
@@ -33,7 +35,7 @@ namespace CsomInspector.Core.Actions
 				.Elements()
 				.Select(e => FromXml(e));
 
-			return new GenericAction(actionElement.Name.LocalName, attributes, elements);
+			return new GenericAction(name, attributes, elements);
 		}
 	}
 }

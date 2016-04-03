@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,14 @@ namespace CsomInspector.Core
 		{
 			var responseElement = _response[0];
 			return Response.FromJson(responseElement);
+		}
+
+		public IEnumerable<Result> GetResultsData()
+		{
+			var resultsElements = _response.Skip(1);
+			var results = Result.FromJson(resultsElements);
+
+			return results.ToList();
 		}
 	}
 }

@@ -45,8 +45,10 @@ namespace CsomInspector.Fiddler.Presentation
 			var actions = inspector.GetActionsData();
 			var requestData = inspector.GetRequestData();
 			var responseData = inspector.GetResponseData();
+			var results = inspector.GetResultsData();
 			
 			RequestViewModel.Actions = actions;
+			RequestViewModel.Results = results;
 			RequestInfoViewModel.SetSessionData(requestData, responseData);
 		}
 

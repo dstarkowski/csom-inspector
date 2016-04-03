@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CsomInspector.Core;
+using System.Collections.Generic;
+using System.Linq;
+using Action = CsomInspector.Core.Actions.Action;
 
 namespace CsomInspector.Fiddler.Presentation
 {
@@ -8,11 +11,11 @@ namespace CsomInspector.Fiddler.Presentation
 		{
 		}
 
-		private IEnumerable<Core.Actions.Action> _actions;
+		private IEnumerable<Action> _actions;
+		private IEnumerable<Result> _results;
+		private Action _selectedAction;
 
-		private Core.Actions.Action _selectedAction;
-
-		public IEnumerable<Core.Actions.Action> Actions
+		public IEnumerable<Action> Actions
 		{
 			get
 			{
@@ -22,10 +25,25 @@ namespace CsomInspector.Fiddler.Presentation
 			{
 				_actions = value;
 				RaisePropertyChanged(nameof(Actions));
+				SelectedAction = _actions.FirstOrDefault();
 			}
 		}
 
-		public Core.Actions.Action SelectedAction
+		public IEnumerable<Result> Results
+		{
+			get
+			{
+				return _results;
+			}
+			set
+			{
+				_results = value;
+				RaisePropertyChanged(nameof(Result));
+				RaisePropertyChanged(nameof(SelectedResult));
+			}
+		}
+
+		public Action SelectedAction
 		{
 			get
 			{
@@ -35,6 +53,22 @@ namespace CsomInspector.Fiddler.Presentation
 			{
 				_selectedAction = value;
 				RaisePropertyChanged(nameof(SelectedAction));
+				RaisePropertyChanged(nameof(SelectedResult));
+			}
+		}
+
+		public Result SelectedResult
+		{
+			get
+			{
+				if (SelectedAction != null)
+				{
+					return Results
+						.Where(r => r.ActionId == SelectedAction.Id)
+						.FirstOrDefault();
+				}
+
+				return null;
 			}
 		}
 	}

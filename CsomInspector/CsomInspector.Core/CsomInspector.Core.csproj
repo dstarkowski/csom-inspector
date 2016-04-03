@@ -53,6 +53,7 @@
     <Compile Include="Data\ObjectTreeNode.cs" />
     <Compile Include="Data\Request.cs" />
     <Compile Include="Data\Response.cs" />
+    <Compile Include="Data\Result.cs" />
     <Compile Include="Data\TypeMappings.cs" />
     <Compile Include="Inspector.cs" />
     <Compile Include="ObjectPaths\Constructor.cs" />

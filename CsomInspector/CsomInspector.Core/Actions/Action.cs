@@ -7,15 +7,17 @@ namespace CsomInspector.Core.Actions
 {
 	public class Action : IObjectTreeNode
 	{
-		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
-
 		protected Action(String name)
 		{
 			Name = name;
 			Path = new List<ObjectPath>();
 		}
 
+		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
+
 		public virtual IEnumerable<IObjectTreeNode> Children => Path;
+
+		public Int32 Id { get; private set; }
 
 		public String Name { get; private set; }
 
@@ -43,17 +45,30 @@ namespace CsomInspector.Core.Actions
 			return action;
 		}
 
+		public override String ToString() => $"Unrecognized action '{Name}'";
+
 		private static Action CreateAction(XElement element)
 		{
-			switch (element.Name.LocalName)
+			var name = element.Name.LocalName;
+
+			var idAttribute = element.Attribute(XName.Get("Id"));
+			var id = Convert.ToInt32(idAttribute.Value);
+
+			var action = null as Action;
+
+			switch (name)
 			{
 				case "Query":
-					return Query.FromXml(element);
+					action = Query.FromXml(element);
+					break;
 				default:
-					return GenericAction.FromXml(element);
+					action = GenericAction.FromXml(element);
+					break;
 			}
-		}
 
-		public override String ToString() => $"Unrecognized action '{Name}'";
+			action.Id = id;
+
+			return action;
+		}
 	}
 }
