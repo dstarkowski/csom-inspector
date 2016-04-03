@@ -16,9 +16,21 @@ namespace CsomInspector.Core.Actions
 
 		private IEnumerable<IObjectTreeNode> _children;
 
-		public override IEnumerable<IObjectTreeNode> Children => _children.Concat(new[] {
-			new ObjectTreeNode("Target (ObjectPath element)", Path)
-		});
+		public override IEnumerable<IObjectTreeNode> Children
+		{
+			get
+			{
+				if (Path != null && Path.Any())
+				{
+					return _children.Concat(new[] {
+						new ObjectTreeNode("Target (ObjectPath element)", Path)
+					});
+				}
+				else {
+					return _children;
+				}
+			}
+		}
 
 		public override String ToString() => $"{Name} (?)";
 
@@ -35,7 +47,21 @@ namespace CsomInspector.Core.Actions
 				.Elements()
 				.Select(e => FromXml(e));
 
-			return new GenericAction(name, attributes, elements);
-		}
+			if (elements.Any())
+			{
+				return new GenericAction(name, attributes, elements);
+			}
+
+			var value = actionElement.Value;
+			if (!String.IsNullOrWhiteSpace(value))
+			{
+				var valueNode = new[] {
+					new ObjectTreeNode($"Value = {value}", Enumerable.Empty<IObjectTreeNode>())
+				};
+				return new GenericAction(name, attributes, valueNode);
+			}
+
+			return new GenericAction(name, attributes, Enumerable.Empty<IObjectTreeNode>());
+        }
 	}
 }
