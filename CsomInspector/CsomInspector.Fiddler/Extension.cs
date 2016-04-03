@@ -24,7 +24,7 @@ namespace CsomInspector.Fiddler
 			var tab = new TabPage("CSOM inspector");
 			tab.Controls.Add(host);
 
-			FiddlerApplication.UI.tabsViews.TabPages.Add(tab);
+			FiddlerApplication.UI.tabsViews.TabPages.Insert(2, tab);
 			FiddlerApplication.CalculateReport += OnSesionChanged;
 		}
 
