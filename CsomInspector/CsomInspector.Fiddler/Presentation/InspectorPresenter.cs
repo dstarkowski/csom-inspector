@@ -2,6 +2,7 @@
 using CsomInspector.Fiddler.View;
 using Fiddler;
 using CsomInspector.Core;
+using System.Linq;
 
 namespace CsomInspector.Fiddler.Presentation
 {
@@ -41,15 +42,24 @@ namespace CsomInspector.Fiddler.Presentation
 			var requestBody = session.GetRequestBodyAsString();
 			var responseBody = session.GetResponseBodyAsString();
 
-			var inspector = new Inspector(requestBody, responseBody);
-			var actions = inspector.GetActionsData();
-			var requestData = inspector.GetRequestData();
-			var responseData = inspector.GetResponseData();
-			var results = inspector.GetResultsData();
-			
-			RequestViewModel.Actions = actions;
-			RequestViewModel.Results = results;
-			RequestInfoViewModel.SetSessionData(requestData, responseData);
+			try
+			{
+				var inspector = new Inspector(requestBody, responseBody);
+				var actions = inspector.GetActionsData();
+				var requestData = inspector.GetRequestData();
+				var responseData = inspector.GetResponseData();
+				var results = inspector.GetResultsData();
+
+				RequestViewModel.Actions = actions;
+				RequestViewModel.Results = results;
+				RequestInfoViewModel.SetSessionData(requestData, responseData);
+			}
+			catch
+			{
+				RequestViewModel.Actions = Enumerable.Empty<Core.Actions.Action>();
+				RequestViewModel.Results = Enumerable.Empty<Core.Result>();
+				RequestInfoViewModel.SetSessionData(null, null);
+			}
 		}
 
 		private InspectorState ValidateSessions(Session[] sessions)

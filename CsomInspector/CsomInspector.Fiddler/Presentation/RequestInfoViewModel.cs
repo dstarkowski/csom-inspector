@@ -20,11 +20,11 @@ namespace CsomInspector.Fiddler.Presentation
 
 		public void SetSessionData(Request request, Response response)
 		{
-			ApplicationName = request.ApplicationName;
-			ClientLibraryVersion = request.LibraryVersion;
-			CorrelationId = response.TraceCorrelationId;
-			ErrorInfo = response.ErrorInfo;
-			ServerLibraryVersion = new Version(response.LibraryVersion);
+			ApplicationName = request?.ApplicationName;
+			ClientLibraryVersion = request?.LibraryVersion;
+			CorrelationId = response?.TraceCorrelationId;
+			ErrorInfo = response?.ErrorInfo;
+			ServerLibraryVersion = response != null ? new Version(response.LibraryVersion) : null;
 
 			RaisePropertyChanged(
 				nameof(ApplicationName),

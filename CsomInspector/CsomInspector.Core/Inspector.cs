@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace CsomInspector.Core
@@ -14,7 +13,14 @@ namespace CsomInspector.Core
 		public Inspector(String requestBody, String responseBody)
 		{
 			_request = XDocument.Parse(requestBody);
-			_response = JArray.Parse(responseBody);
+			try
+			{
+				_response = JArray.Parse(responseBody);
+			}
+			catch
+			{
+				_response = new JArray();
+			}
 		}
 
 		private XDocument _request;
@@ -32,7 +38,14 @@ namespace CsomInspector.Core
 			var objectPathsElement = _request.Root.Element(XName.Get("ObjectPaths", _elementNamespace));
 			foreach (var action in actionsElement.Elements())
 			{
-				yield return Actions.Action.FromXml(action, objectPathsElement.Elements());
+				if (action.Name.LocalName != "ExceptionHandlingScope")
+				{
+					yield return Actions.Action.FromXml(action, objectPathsElement.Elements());
+				}
+				else
+				{
+					yield return Actions.ExceptionHandlingScope.FromXml();
+				}
 			}
 		}
 
