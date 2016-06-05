@@ -38,8 +38,8 @@ namespace CsomInspector.Fiddler.Presentation
 			set
 			{
 				_results = value;
-				RaisePropertyChanged(nameof(Result));
-				RaisePropertyChanged(nameof(SelectedResult));
+				RaisePropertyChanged(nameof(Results));
+				RaisePropertyChanged(nameof(ResultView));
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace CsomInspector.Fiddler.Presentation
 			{
 				_selectedAction = value;
 				RaisePropertyChanged(nameof(SelectedAction));
-				RaisePropertyChanged(nameof(SelectedResult));
+				RaisePropertyChanged(nameof(ResultView));
 			}
 		}
 
@@ -69,6 +69,33 @@ namespace CsomInspector.Fiddler.Presentation
 				}
 
 				return null;
+			}
+		}
+
+		private ErrorInfo _errorInfo;
+		public ErrorInfo ErrorInfo
+		{
+			get
+			{
+				return _errorInfo;
+			}
+			set
+			{
+				_errorInfo = value;
+				RaisePropertyChanged(nameof(ResultView));
+			}
+		}
+
+		public IEnumerable<IObjectTreeNode> ResultView
+		{
+			get
+			{
+				if (ErrorInfo != null)
+				{
+					return new[] { ErrorInfo };
+				}
+
+				return SelectedResult?.Properties;
 			}
 		}
 	}

@@ -58,7 +58,7 @@
 		<TreeView
 			Grid.Column="1"
 			Grid.Row="3"
-			ItemsSource="{Binding SelectedResult.Properties, Mode=OneWay}"
+			ItemsSource="{Binding ResultView, Mode=OneWay}"
 			FontFamily="Consolas">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Children}">

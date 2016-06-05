@@ -52,6 +52,7 @@ namespace CsomInspector.Fiddler.Presentation
 
 				RequestViewModel.Actions = actions;
 				RequestViewModel.Results = results;
+				RequestViewModel.ErrorInfo = responseData.ErrorInfo;
 				RequestInfoViewModel.SetSessionData(requestData, responseData);
 			}
 			catch
