@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CsomInspector.Core.ObjectPaths;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace CsomInspector.Core
 			}
 		}
 
-		public Int32 ActionId { get; private set; }
+		public Int32 ActionId { get; }
 
-		public IEnumerable<ResultProperty> Properties { get; private set; }
+		public IEnumerable<ResultProperty> Properties { get; }
 	}
 
 	public class ResultProperty : IObjectTreeNode
@@ -54,11 +55,11 @@ namespace CsomInspector.Core
 			Children = children;
 		}
 
-		public IEnumerable<IObjectTreeNode> Children { get; private set; }
+		public IEnumerable<IObjectTreeNode> Children { get; }
 
-		public String Name { get; private set; }
+		public String Name { get; }
 
-		public String Value { get; private set; }
+		public String Value { get; }
 
 		public override String ToString()
 		{
@@ -74,11 +75,20 @@ namespace CsomInspector.Core
 		{
 			foreach (var token in tokens)
 			{
-				var name = token.Path;
+				var property = token as JProperty;
 				var child = token.Children().FirstOrDefault();
 				var value = child?.ToString();
 
-				yield return new ResultProperty(name, value);
+				if (String.Equals(property.Name, "_ObjectIdentity_", StringComparison.InvariantCultureIgnoreCase))
+				{
+					var identity = IdentityParameter.FromIdentityString(value);
+
+					yield return new ResultProperty(property.Name, identity);
+				}
+				else
+				{
+					yield return new ResultProperty(property.Name, value);
+				}
 			}
 		}
 	}
