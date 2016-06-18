@@ -10,7 +10,7 @@ namespace CsomInspector.Core.ObjectPaths
 		private Identity(String name, IEnumerable<IdentityParameter> parameters)
 		{
 			Parameters = parameters.ToList();
-			Name = Char.ToUpper(name[0]) + name.Substring(1);
+			Name = name;
 		}
 
 		public override IEnumerable<IObjectTreeNode> Children => Parameters;
