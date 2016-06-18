@@ -62,7 +62,13 @@
 			FontFamily="Consolas">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
-					<TreeViewItem Header="{Binding}" />
+					<TreeViewItem>
+						<TreeViewItem.Template>
+							<ControlTemplate>
+								<TextBox Text="{Binding Mode=OneTime}" BorderThickness="0" Background="Transparent" />
+							</ControlTemplate>
+						</TreeViewItem.Template>
+					</TreeViewItem>
 				</HierarchicalDataTemplate>
 			</TreeView.ItemTemplate>
 		</TreeView>
