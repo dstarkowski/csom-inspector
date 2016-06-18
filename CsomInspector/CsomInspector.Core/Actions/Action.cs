@@ -61,6 +61,9 @@ namespace CsomInspector.Core.Actions
 				case "Query":
 					action = Query.FromXml(element);
 					break;
+				case "Method":
+					action = Method.FromXml(element);
+					break;
 				default:
 					action = GenericAction.FromXml(element);
 					break;

@@ -47,6 +47,7 @@
     <Compile Include="Actions\ChildItemQuery.cs" />
     <Compile Include="Actions\ExceptionHandlingScope.cs" />
     <Compile Include="Actions\GenericAction.cs" />
+    <Compile Include="Actions\Method.cs" />
     <Compile Include="Actions\ObjectIdentityQuery.cs" />
     <Compile Include="Actions\ObjectPathAction.cs" />
     <Compile Include="Actions\Query.cs" />

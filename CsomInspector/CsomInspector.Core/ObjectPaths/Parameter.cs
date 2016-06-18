@@ -41,6 +41,12 @@ namespace CsomInspector.Core.ObjectPaths
 				return $"\"{Value}\"";
 			}
 
+			if (String.Equals(Type, "Boolean", StringComparison.InvariantCultureIgnoreCase) ||
+				String.Equals(Type, "Int32", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return Value;
+            }
+
 			return $"[{Type}] {Value}";
 		}
 
