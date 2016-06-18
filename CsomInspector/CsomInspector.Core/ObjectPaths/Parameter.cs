@@ -49,19 +49,26 @@ namespace CsomInspector.Core.ObjectPaths
 			foreach (var element in elements)
 			{
 				var typeAttribute = element.Attribute(XName.Get("Type"));
+				var typeIdAttribute = element.Attribute(XName.Get("TypeId"));
+				var objectPathAttribute = element.Attribute(XName.Get("ObjectPathId"));
+
 				if (typeAttribute != null)
 				{
 					yield return new Parameter(typeAttribute.Value, element.Value);
 				}
-				else
+				else if (typeIdAttribute != null)
 				{
-					var typeIdAttribute = element.Attribute(XName.Get("TypeId"));
 					var typeName = TypeMappings.Current.Get(Guid.Parse(typeIdAttribute.Value));
 
 					var propertyElements = element.Elements(XName.Get("Property", _elementNamespace));
 					var properties = ParameterProperty.FromXml(propertyElements);
 
 					yield return new Parameter(typeName, properties);
+				}
+				else
+				{
+					//TODO: display ObjectPath
+					yield return new Parameter("ObjectPath", objectPathAttribute.Value);
 				}
 			}
 		}
