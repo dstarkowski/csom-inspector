@@ -40,10 +40,17 @@ namespace CsomInspector.Core.ObjectPaths
 		{
 			var nameAttribute = element.Attribute(XName.Get("Name"));
 
-			var parameterElements = element.Element(XName.Get("Parameters", _elementNamespace))?.Elements(XName.Get("Parameter", _elementNamespace));
-			var parameters = Parameter.FromXml(parameterElements);
+			var parametersElement = element.Element(XName.Get("Parameters", _elementNamespace));
+			
+			if (parametersElement != null)
+			{
+				var parameterElements = parametersElement.Elements(XName.Get("Parameter", _elementNamespace));
+				var parameters = Parameter.FromXml(parameterElements);
 
-			return new Method(nameAttribute.Value, parameters);
+				return new Method(nameAttribute.Value, parameters);
+			}
+
+			return new Method(nameAttribute.Value, Enumerable.Empty<Parameter>());
 		}
 	}
 }
