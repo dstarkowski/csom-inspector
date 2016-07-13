@@ -63,9 +63,6 @@
     <Compile Include="View\RequestInfoView.xaml.cs">
       <DependentUpon>RequestInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RequestView.xaml.cs">
-      <DependentUpon>RequestView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\RequestViewModel.cs" />
     <Compile Include="Presentation\InspectorStates.cs" />
   </ItemGroup>
@@ -75,10 +72,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RequestInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\RequestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

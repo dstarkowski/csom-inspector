@@ -17,10 +17,10 @@ namespace CsomInspector.Fiddler.Presentation
 			View.DataContext = this;
 		}
 
-		public RequestViewModel RequestViewModel { get; private set; }
-		public RequestInfoViewModel RequestInfoViewModel { get; private set; }
+		public RequestViewModel RequestViewModel { get; }
+		public RequestInfoViewModel RequestInfoViewModel { get; }
 
-		public InspectorView View { get; private set; }
+		public InspectorView View { get; }
 
 		public void SetSession(Session[] sessions)
 		{
