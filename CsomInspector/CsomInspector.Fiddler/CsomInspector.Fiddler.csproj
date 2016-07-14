@@ -82,6 +82,14 @@
       <Name>CsomInspector.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\CsomInspector.Core\bin\Debug\CsomInspector.Core.dll">
+      <Link>Dependencies\CsomInspector.Core.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\CsomInspector.Core\bin\Debug\Newtonsoft.Json.dll">
+      <Link>Dependencies\Newtonsoft.Json.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
