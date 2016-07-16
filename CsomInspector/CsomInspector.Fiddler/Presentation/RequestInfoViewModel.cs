@@ -1,6 +1,5 @@
 ﻿using CsomInspector.Core;
 using System;
-using System.Windows;
 
 namespace CsomInspector.Fiddler.Presentation
 {
@@ -12,10 +11,6 @@ namespace CsomInspector.Fiddler.Presentation
 
 		public String CorrelationId { get; private set; }
 
-		public ErrorInfo ErrorInfo { get; private set; }
-
-		public Visibility ErrorInfoVisibility => ErrorInfo == null ? Visibility.Collapsed : Visibility.Visible;
-
 		public Version ServerLibraryVersion { get; private set; }
 
 		public void SetSessionData(Request request, Response response)
@@ -23,14 +18,12 @@ namespace CsomInspector.Fiddler.Presentation
 			ApplicationName = request?.ApplicationName;
 			ClientLibraryVersion = request?.LibraryVersion;
 			CorrelationId = response?.TraceCorrelationId;
-			ErrorInfo = response?.ErrorInfo;
 			ServerLibraryVersion = response != null ? new Version(response.LibraryVersion) : null;
 
 			RaisePropertyChanged(
 				nameof(ApplicationName),
 				nameof(ClientLibraryVersion),
 				nameof(CorrelationId),
-				nameof(ErrorInfo),
 				nameof(ServerLibraryVersion));
 		}
 	}

@@ -8,7 +8,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		
 		<Grid.ColumnDefinitions>
@@ -57,11 +56,5 @@
 			Grid.Column="3"
 			Text="{Binding ServerLibraryVersion, Mode=OneWay}"
 			IsReadOnly="True" />
-
-		<TextBox
-			Grid.Row="2"
-			Grid.Column="0" Grid.ColumnSpan="4"
-			Text="Error info"
-			Visibility="{Binding ErrorInfoVisibility, Mode=OneWay}"/>
 	</Grid>
 </UserControl>

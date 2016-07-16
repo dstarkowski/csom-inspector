@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CsomInspector.Core;
 using CsomInspector.Fiddler.View;
 using Fiddler;
-using CsomInspector.Core;
+using System;
 using System.Linq;
 
 namespace CsomInspector.Fiddler.Presentation
@@ -18,6 +18,7 @@ namespace CsomInspector.Fiddler.Presentation
 		}
 
 		public RequestViewModel RequestViewModel { get; }
+
 		public RequestInfoViewModel RequestInfoViewModel { get; }
 
 		public InspectorView View { get; }
@@ -28,11 +29,10 @@ namespace CsomInspector.Fiddler.Presentation
 
 			if (state == InspectorState.Single)
 			{
-				//View.ShowInspector();
 				InspectSession(sessions);
 			}
-			else {
-				//View.ShowError(state);
+			else
+			{
 			}
 		}
 

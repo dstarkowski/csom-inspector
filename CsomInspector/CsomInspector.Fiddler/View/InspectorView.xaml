@@ -5,29 +5,7 @@
     xmlns:local="clr-namespace:CsomInspector.Fiddler.View">
 
 	<UserControl.Resources>
-		<Style TargetType="TreeViewItem">
-			<Setter Property="IsExpanded" Value="True" />
-		</Style>
-		<Style TargetType="{x:Type GroupBox}">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type GroupBox}">
-						<Grid SnapsToDevicePixels="true">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="*"/>
-							</Grid.RowDefinitions>
-
-							<ContentPresenter
-								Grid.Row="0"
-								ContentSource="Header"/>
-							<ContentPresenter
-								Grid.Row="1"/>
-						</Grid>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+		<ResourceDictionary Source="..\Resources\Styles.xaml"/>
 	</UserControl.Resources>
 
 	<Grid>
@@ -47,14 +25,12 @@
 		<GridSplitter
 			Grid.Column="1"
 			Grid.Row="1" Grid.RowSpan="3"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-			ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
+			ResizeDirection="Columns"/>
 
 		<GridSplitter
 			Grid.Column="2"
 			Grid.Row="2"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-			ResizeDirection="Rows" ResizeBehavior="PreviousAndNext"/>
+			ResizeDirection="Rows"/>
 
 		<local:RequestInfoView
 			Grid.Column="0" Grid.ColumnSpan="3"

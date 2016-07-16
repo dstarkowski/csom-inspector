@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="Fiddler">
       <HintPath>..\..\..\..\Program Files (x86)\Fiddler2\Fiddler.exe</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -67,6 +68,10 @@
     <Compile Include="Presentation\InspectorStates.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\InspectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,6 +85,7 @@
     <ProjectReference Include="..\CsomInspector.Core\CsomInspector.Core.csproj">
       <Project>{19449c78-0c36-4afa-99e5-6f5f7de11e10}</Project>
       <Name>CsomInspector.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
