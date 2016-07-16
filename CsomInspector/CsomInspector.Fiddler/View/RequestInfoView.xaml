@@ -8,6 +8,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		
 		<Grid.ColumnDefinitions>
@@ -28,22 +29,21 @@
 			IsReadOnly="True" />
 
 		<Label
-			Grid.Row="1"
-			Grid.Column="0"
-			Content="Correlation ID"/>
-		<TextBox
-			Grid.Row="1"
-			Grid.Column="1"
-			Text="{Binding CorrelationId, Mode=OneWay}"
-			IsReadOnly="True"/>
-
-		<Label
 			Grid.Row="0"
 			Grid.Column="2"
-			Content="Client library version" />
+			Content="Client tag"/>
 		<TextBox
 			Grid.Row="0"
 			Grid.Column="3"
+			Text="{Binding ClientTag, Mode=OneWay}"/>
+
+		<Label
+			Grid.Row="1"
+			Grid.Column="0"
+			Content="Client library version" />
+		<TextBox
+			Grid.Row="1"
+			Grid.Column="1"
 			Text="{Binding ClientLibraryVersion, Mode=OneWay}"
 			IsReadOnly="True" />
 
@@ -56,5 +56,15 @@
 			Grid.Column="3"
 			Text="{Binding ServerLibraryVersion, Mode=OneWay}"
 			IsReadOnly="True" />
+
+		<Label
+			Grid.Row="2"
+			Grid.Column="0"
+			Content="Correlation ID"/>
+		<TextBox
+			Grid.Row="2"
+			Grid.Column="1"
+			Text="{Binding CorrelationId, Mode=OneWay}"
+			IsReadOnly="True"/>
 	</Grid>
 </UserControl>

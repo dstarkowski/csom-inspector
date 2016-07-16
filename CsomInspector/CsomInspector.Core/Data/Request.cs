@@ -5,9 +5,10 @@ namespace CsomInspector.Core
 {
 	public class Request
 	{
-		private Request(String applicationName, String libraryVersion)
+		private Request(String applicationName, String libraryVersion, String clientTag)
 		{
 			ApplicationName = applicationName ?? String.Empty;
+			ClientTag = clientTag;
 			LibraryVersion = new Version(libraryVersion) ?? new Version();
 		}
 
@@ -15,29 +16,13 @@ namespace CsomInspector.Core
 
 		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 
-		public String ApplicationName { get; private set; }
+		public String ApplicationName { get; }
 
-		public Version LibraryVersion { get; private set; }
+		public Version LibraryVersion { get; }
 
-		public String VersionDisplayName
-		{
-			get
-			{
-				switch (LibraryVersion.Major)
-				{
-					case 14:
-						return "SharePoint 2010";
-					case 15:
-						return "SharePoint 2013";
-					case 16:
-						return "SharePoint Online";
-					default:
-						return "Other";
-				}
-			}
-		}
+		public String ClientTag { get; }
 
-		public static Request FromXml(XElement element)
+		public static Request FromXml(XElement element, String clientTag)
 		{
 			if (element == null)
 			{
@@ -53,7 +38,7 @@ namespace CsomInspector.Core
 			var applicationName = element.Attribute(XName.Get("ApplicationName"));
 			var libraryVersion = element.Attribute(XName.Get("LibraryVersion"));
 
-			var request = new Request(applicationName?.Value, libraryVersion?.Value);
+			var request = new Request(applicationName?.Value, libraryVersion?.Value, clientTag);
 
 			return request;
 		}

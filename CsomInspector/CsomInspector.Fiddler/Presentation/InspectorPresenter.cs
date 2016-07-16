@@ -2,6 +2,7 @@
 using CsomInspector.Fiddler.View;
 using Fiddler;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CsomInspector.Fiddler.Presentation
@@ -41,10 +42,11 @@ namespace CsomInspector.Fiddler.Presentation
 			var session = sessions[0];
 			var requestBody = session.GetRequestBodyAsString();
 			var responseBody = session.GetResponseBodyAsString();
+			var requestHeaders = GetHeaders(session.RequestHeaders);
 
 			try
 			{
-				var inspector = new Inspector(requestBody, responseBody);
+				var inspector = new Inspector(requestBody, responseBody, requestHeaders);
 				var actions = inspector.GetActionsData();
 				var requestData = inspector.GetRequestData();
 				var responseData = inspector.GetResponseData();
@@ -61,6 +63,18 @@ namespace CsomInspector.Fiddler.Presentation
 				RequestViewModel.Results = Enumerable.Empty<Core.Result>();
 				RequestInfoViewModel.SetSessionData(null, null);
 			}
+		}
+
+		private Dictionary<String, String> GetHeaders(HTTPRequestHeaders headers)
+		{
+			var dictionary = new Dictionary<String, String>(headers.Count());
+
+			foreach (var header in headers)
+			{
+				dictionary.Add(header.Name, header.Value);
+			}
+
+			return dictionary;
 		}
 
 		private InspectorState ValidateSessions(Session[] sessions)
