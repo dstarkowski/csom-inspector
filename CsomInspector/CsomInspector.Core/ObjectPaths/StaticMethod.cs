@@ -7,7 +7,8 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public class StaticMethod : ObjectPath
 	{
-		private StaticMethod(String name, String typeId, IEnumerable<Parameter> parameters)
+		private StaticMethod(Int32 id, String name, String typeId, IEnumerable<Parameter> parameters)
+			: base(id)
 		{
 			Name = name;
 			TypeId = Guid.Parse(typeId);
@@ -37,13 +38,18 @@ namespace CsomInspector.Core.ObjectPaths
 
 			var parameterElements = element.Element(XName.Get("Parameters", _elementNamespace))?.Elements(XName.Get("Parameter", _elementNamespace));
 
+			var idValue = element
+				.Attribute(XName.Get("Id"))
+				.Value;
+			var id = Convert.ToInt32(idValue);
+
 			var parameters = Enumerable.Empty<Parameter>();
 			if (parameterElements != null)
 			{
 				var paremeters = Parameter.FromXml(parameterElements);
 			}
 
-			return new StaticMethod(nameAttribute.Value, typeAttribute.Value, parameters);
+			return new StaticMethod(id, nameAttribute.Value, typeAttribute.Value, parameters);
 		}
 	}
 }

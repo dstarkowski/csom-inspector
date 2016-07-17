@@ -1,11 +1,12 @@
 ﻿using CsomInspector.Core.ObjectPaths;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml.Linq;
 
 namespace CsomInspector.Core.Actions
 {
-	public class Action : IObjectTreeNode
+	public class Action : IObjectTreeNode, INotifyPropertyChanged
 	{
 		protected Action(String name)
 		{
@@ -15,11 +16,21 @@ namespace CsomInspector.Core.Actions
 
 		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		public virtual IEnumerable<IObjectTreeNode> Children => Path;
 
 		public Int32 Id { get; private set; }
 
-		public String Name { get; private set; }
+		public Boolean IsHighlighted { get; private set; }
+
+		public void Highlight(Boolean isHighlighted)
+		{
+			IsHighlighted = isHighlighted;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHighlighted)));
+		}
+
+		public String Name { get; }
 
 		public IEnumerable<ObjectPath> Path { get; private set; }
 
@@ -39,15 +50,15 @@ namespace CsomInspector.Core.Actions
 			var id = actionElement.Attribute(XName.Get("Id"));
 			var objectPathId = actionElement.Attribute(XName.Get("ObjectPathId"));
 
-			var action = CreateAction(actionElement);
-			action.Path = ObjectPath.FromXml(objectPaths, Convert.ToInt32(objectPathId.Value));
+			var path = ObjectPath.FromXml(objectPaths, Convert.ToInt32(objectPathId.Value));
+			var action = CreateAction(actionElement, path);
 
 			return action;
 		}
 
 		public override String ToString() => $"Unrecognized action '{Name}'";
 
-		private static Action CreateAction(XElement element)
+		private static Action CreateAction(XElement element, IEnumerable<ObjectPath> path)
 		{
 			var name = element.Name.LocalName;
 
@@ -64,12 +75,16 @@ namespace CsomInspector.Core.Actions
 				case "Method":
 					action = Method.FromXml(element);
 					break;
+				case "ObjectPath":
+					action = ObjectPathAction.FromXml(element, path);
+					break;
 				default:
 					action = GenericAction.FromXml(element);
 					break;
 			}
 
 			action.Id = id;
+			action.Path = path;
 
 			return action;
 		}

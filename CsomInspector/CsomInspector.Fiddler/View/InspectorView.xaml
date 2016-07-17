@@ -1,20 +1,14 @@
 ﻿<UserControl
 	x:Class="CsomInspector.Fiddler.View.InspectorView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:CsomInspector.Fiddler.View">
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:CsomInspector.Fiddler.View">
 
 	<UserControl.Resources>
 		<ResourceDictionary Source="..\Resources\Styles.xaml"/>
 	</UserControl.Resources>
 
 	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="200"/>
-			<ColumnDefinition Width="5"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -22,57 +16,34 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<GridSplitter
-			Grid.Column="1"
-			Grid.Row="1" Grid.RowSpan="3"
-			ResizeDirection="Columns"/>
-
-		<GridSplitter
-			Grid.Column="2"
-			Grid.Row="2"
-			ResizeDirection="Rows"/>
-
 		<local:RequestInfoView
-			Grid.Column="0" Grid.ColumnSpan="3"
 			Grid.Row="0"
 			DataContext="{Binding RequestInfoViewModel, Mode=OneTime}"/>
 
 		<GroupBox
-			Grid.Row="1" Grid.RowSpan="3"
-			Grid.Column="0"
-			Header="Executed actions"
-			DataContext="{Binding RequestViewModel, Mode=OneWay}">
-
-			<ListView
-				Grid.Row="1"
-				ItemsSource="{Binding Actions, Mode=OneWay}"
-				SelectedItem="{Binding SelectedAction, Mode=TwoWay}"
-				FontFamily="Consolas"
-				HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-			</ListView>
-		</GroupBox>
-
-		<GroupBox
 			Grid.Row="1"
-			Grid.Column="2"
 			Header="Action details"
 			DataContext="{Binding RequestViewModel, Mode=OneWay}">
 
-			<TreeView
+			<local:BindableTreeView
 				Grid.Row="1"
-				ItemsSource="{Binding SelectedAction.Children, Mode=OneWay}"
+				ItemsSource="{Binding Actions, Mode=OneWay}"
+				SelectedItemBinding="{Binding SelectedAction, Mode=TwoWay}"
 				FontFamily="Consolas">
 				<TreeView.ItemTemplate>
 					<HierarchicalDataTemplate ItemsSource="{Binding Children}">
-						<TreeViewItem Header="{Binding}" />
+						<Border Margin="0">
+							<TextBox Text="{Binding Mode=OneTime}" BorderThickness="0" Background="Transparent" IsReadOnly="True" IsEnabled="{Binding IsHighlighted, Mode=OneWay}" IsHitTestVisible="False"/>
+						</Border>
 					</HierarchicalDataTemplate>
 				</TreeView.ItemTemplate>
-			</TreeView>
+			</local:BindableTreeView>
 		</GroupBox>
+
+		<GridSplitter Grid.Row="2" ResizeDirection="Rows"/>
 
 		<GroupBox
 			Grid.Row="3"
-			Grid.Column="2"
 			Header="Action result"
 			DataContext="{Binding RequestViewModel, Mode=OneWay}">
 
@@ -81,13 +52,9 @@
 				FontFamily="Consolas">
 				<TreeView.ItemTemplate>
 					<HierarchicalDataTemplate ItemsSource="{Binding Children}">
-						<TreeViewItem>
-							<TreeViewItem.Template>
-								<ControlTemplate>
-									<TextBox Text="{Binding Mode=OneTime}" BorderThickness="0" Background="Transparent" />
-								</ControlTemplate>
-							</TreeViewItem.Template>
-						</TreeViewItem>
+						<Border>
+							<TextBox Text="{Binding Mode=OneTime}" BorderThickness="0" Background="Transparent" IsReadOnly="True" />
+						</Border>
 					</HierarchicalDataTemplate>
 				</TreeView.ItemTemplate>
 			</TreeView>

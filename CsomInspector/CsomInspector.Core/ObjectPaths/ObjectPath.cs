@@ -7,8 +7,9 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public abstract class ObjectPath : IObjectTreeNode
 	{
-		protected ObjectPath()
+		protected ObjectPath(Int32 id)
 		{
+			Id = id;
 		}
 
 		protected const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
@@ -16,6 +17,8 @@ namespace CsomInspector.Core.ObjectPaths
 		public virtual IEnumerable<IObjectTreeNode> Children => Enumerable.Empty<IObjectTreeNode>();
 
 		public abstract String Type { get; }
+
+		public Int32 Id { get; }
 
 		public static IEnumerable<ObjectPath> FromXml(IEnumerable<XElement> pathElements, Int32 pathId)
 		{

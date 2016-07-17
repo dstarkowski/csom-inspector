@@ -7,7 +7,8 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public class Method : ObjectPath
 	{
-		private Method(String name, IEnumerable<Parameter> parameters)
+		private Method(Int32 id, String name, IEnumerable<Parameter> parameters)
+			: base(id)
 		{
 			Name = name;
 			Parameters = parameters;
@@ -41,16 +42,21 @@ namespace CsomInspector.Core.ObjectPaths
 			var nameAttribute = element.Attribute(XName.Get("Name"));
 
 			var parametersElement = element.Element(XName.Get("Parameters", _elementNamespace));
-			
+
+			var idValue = element
+				.Attribute(XName.Get("Id"))
+				.Value;
+			var id = Convert.ToInt32(idValue);
+
 			if (parametersElement != null)
 			{
 				var parameterElements = parametersElement.Elements(XName.Get("Parameter", _elementNamespace));
 				var parameters = Parameter.FromXml(parameterElements);
 
-				return new Method(nameAttribute.Value, parameters);
+				return new Method(id, nameAttribute.Value, parameters);
 			}
 
-			return new Method(nameAttribute.Value, Enumerable.Empty<Parameter>());
+			return new Method(id, nameAttribute.Value, Enumerable.Empty<Parameter>());
 		}
 	}
 }

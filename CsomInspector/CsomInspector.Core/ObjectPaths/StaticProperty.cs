@@ -5,7 +5,8 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public class StaticProperty : ObjectPath
 	{
-		private StaticProperty(String name, String typeId)
+		private StaticProperty(Int32 id, String name, String typeId)
+			: base(id)
 		{
 			Name = name;
 			TypeId = Guid.Parse(typeId);
@@ -22,8 +23,12 @@ namespace CsomInspector.Core.ObjectPaths
 		{
 			var nameAttribute = element.Attribute(XName.Get("Name"));
 			var typeAttribute = element.Attribute(XName.Get("TypeId"));
+			var idValue = element
+				.Attribute(XName.Get("Id"))
+				.Value;
+			var id = Convert.ToInt32(idValue);
 
-			return new StaticProperty(nameAttribute.Value, typeAttribute.Value);
+			return new StaticProperty(id, nameAttribute.Value, typeAttribute.Value);
 		}
 	}
 }

@@ -58,6 +58,7 @@
     <Compile Include="Presentation\RequestInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\BindableTreeView.cs" />
     <Compile Include="View\InspectorView.xaml.cs">
       <DependentUpon>InspectorView.xaml</DependentUpon>
     </Compile>
@@ -92,7 +93,9 @@
     <EmbeddedResource Include="..\CsomInspector.Core\bin\Debug\CsomInspector.Core.dll">
       <Link>Dependencies\CsomInspector.Core.dll</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\CsomInspector.Core\bin\Debug\Newtonsoft.Json.dll">
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll">
       <Link>Dependencies\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
   </ItemGroup>

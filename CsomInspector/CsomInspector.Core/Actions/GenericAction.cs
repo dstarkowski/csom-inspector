@@ -9,28 +9,12 @@ namespace CsomInspector.Core.Actions
 	{
 		private GenericAction(String name, IEnumerable<IObjectTreeNode> attributes, IEnumerable<IObjectTreeNode> elements) : base(name)
 		{
-			_children = attributes
+			Children = attributes
 				.Concat(elements)
 				.ToList();
 		}
 
-		private IEnumerable<IObjectTreeNode> _children;
-
-		public override IEnumerable<IObjectTreeNode> Children
-		{
-			get
-			{
-				if (Path != null && Path.Any())
-				{
-					return _children.Concat(new[] {
-						new ObjectTreeNode("Target (ObjectPath element)", Path)
-					});
-				}
-				else {
-					return _children;
-				}
-			}
-		}
+		public override IEnumerable<IObjectTreeNode> Children { get; }
 
 		public override String ToString() => $"{Name} (?)";
 

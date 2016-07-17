@@ -7,7 +7,7 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		<Setter Property="ResizeBehavior" Value="PreviousAndNext"/>
 	</Style>
-	
+
 	<Style TargetType="{x:Type TreeViewItem}">
 		<Setter Property="IsExpanded" Value="True" />
 	</Style>

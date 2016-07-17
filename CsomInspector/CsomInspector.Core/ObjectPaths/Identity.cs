@@ -7,7 +7,8 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public class Identity : ObjectPath
 	{
-		private Identity(String name, IEnumerable<IdentityParameter> parameters)
+		private Identity(Int32 id, String name, IEnumerable<IdentityParameter> parameters)
+			: base(id)
 		{
 			Parameters = parameters.ToList();
 			Name = name;
@@ -35,8 +36,12 @@ namespace CsomInspector.Core.ObjectPaths
 			var name = parameters
 				.Select(p => p.Name)
 				.Last();
+			var idValue = element
+				.Attribute(XName.Get("Id"))
+				.Value;
+			var id = Convert.ToInt32(idValue);
 
-			return new Identity(name, parameters);
+			return new Identity(id, name, parameters);
 		}
 	}
 }

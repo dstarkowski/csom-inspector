@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Action = CsomInspector.Core.Actions.Action;
+using CsomInspector.Core.Actions;
+using System;
+using System.Collections.ObjectModel;
 
 namespace CsomInspector.Fiddler.Presentation
 {
@@ -11,11 +14,11 @@ namespace CsomInspector.Fiddler.Presentation
 		{
 		}
 
-		private IEnumerable<Action> _actions;
+		private ObservableCollection<Action> _actions;
 		private IEnumerable<Result> _results;
 		private Action _selectedAction;
 
-		public IEnumerable<Action> Actions
+		public ObservableCollection<Action> Actions
 		{
 			get
 			{
@@ -52,8 +55,24 @@ namespace CsomInspector.Fiddler.Presentation
 			set
 			{
 				_selectedAction = value;
+
+				HighlightActions(_selectedAction);
+
+				RaisePropertyChanged(nameof(Actions));
 				RaisePropertyChanged(nameof(SelectedAction));
 				RaisePropertyChanged(nameof(ResultView));
+			}
+		}
+
+		private void HighlightActions(Action selectedAction)
+		{
+			var selectedPaths = selectedAction.Path;
+
+			foreach (var action in _actions)
+			{
+				var lastPath = action.Path.Last();
+				var isHighlighted = selectedPaths.Any(path => path.Id == lastPath.Id);
+				action.Highlight(isHighlighted);
 			}
 		}
 

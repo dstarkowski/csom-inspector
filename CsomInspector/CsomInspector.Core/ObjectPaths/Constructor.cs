@@ -7,7 +7,8 @@ namespace CsomInspector.Core.ObjectPaths
 {
 	public class Constructor : ObjectPath
 	{
-		private Constructor(String typeId)
+		private Constructor(Int32 id, String typeId)
+			: base(id)
 		{
 			TypeId = Guid.Parse(typeId);
 		}
@@ -24,8 +25,12 @@ namespace CsomInspector.Core.ObjectPaths
 		internal static Constructor FromXml(XElement element)
 		{
 			var typeAttribute = element.Attribute(XName.Get("TypeId"));
+			var idValue = element
+				.Attribute(XName.Get("Id"))
+				.Value;
+			var id = Convert.ToInt32(idValue);
 
-			return new Constructor(typeAttribute.Value);
+			return new Constructor(id, typeAttribute.Value);
 		}
 	}
 }
