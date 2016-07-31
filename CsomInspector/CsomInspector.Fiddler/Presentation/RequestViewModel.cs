@@ -70,9 +70,12 @@ namespace CsomInspector.Fiddler.Presentation
 
 			foreach (var action in _actions)
 			{
-				var lastPath = action.Path.Last();
-				var isHighlighted = selectedPaths.Any(path => path.Id == lastPath.Id);
-				action.Highlight(isHighlighted);
+				var lastPath = action.Path.LastOrDefault();
+				if (lastPath != null)
+				{
+					var isHighlighted = selectedPaths.Any(path => path.Id == lastPath.Id);
+					action.Highlight(isHighlighted);
+				}
 			}
 		}
 
