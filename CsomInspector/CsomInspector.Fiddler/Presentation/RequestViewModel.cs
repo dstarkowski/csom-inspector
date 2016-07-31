@@ -5,6 +5,7 @@ using Action = CsomInspector.Core.Actions.Action;
 using CsomInspector.Core.Actions;
 using System;
 using System.Collections.ObjectModel;
+using CsomInspector.Core.ObjectPaths;
 
 namespace CsomInspector.Fiddler.Presentation
 {
@@ -66,7 +67,7 @@ namespace CsomInspector.Fiddler.Presentation
 
 		private void HighlightActions(Action selectedAction)
 		{
-			var selectedPaths = selectedAction.Path;
+			var selectedPaths = selectedAction?.Path ?? Enumerable.Empty<ObjectPath>();
 
 			foreach (var action in _actions)
 			{
