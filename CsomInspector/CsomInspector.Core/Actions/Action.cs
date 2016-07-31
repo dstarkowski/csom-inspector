@@ -24,12 +24,6 @@ namespace CsomInspector.Core.Actions
 
 		public Boolean IsHighlighted { get; private set; }
 
-		public void Highlight(Boolean isHighlighted)
-		{
-			IsHighlighted = isHighlighted;
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHighlighted)));
-		}
-
 		public String Name { get; }
 
 		public IEnumerable<ObjectPath> Path { get; private set; }
@@ -56,6 +50,12 @@ namespace CsomInspector.Core.Actions
 			return action;
 		}
 
+		public void Highlight(Boolean isHighlighted)
+		{
+			IsHighlighted = isHighlighted;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHighlighted)));
+		}
+
 		public override String ToString() => $"Unrecognized action '{Name}'";
 
 		private static Action CreateAction(XElement element, IEnumerable<ObjectPath> path)
@@ -77,6 +77,9 @@ namespace CsomInspector.Core.Actions
 					break;
 				case "ObjectPath":
 					action = ObjectPathAction.FromXml(element, path);
+					break;
+				case "SetProperty":
+					action = SetProperty.FromXml(element);
 					break;
 				default:
 					action = GenericAction.FromXml(element);

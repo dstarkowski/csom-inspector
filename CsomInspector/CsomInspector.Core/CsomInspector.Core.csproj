@@ -51,6 +51,7 @@
     <Compile Include="Actions\ObjectIdentityQuery.cs" />
     <Compile Include="Actions\ObjectPathAction.cs" />
     <Compile Include="Actions\Query.cs" />
+    <Compile Include="Actions\SetProperty.cs" />
     <Compile Include="Data\ErrorInfo.cs" />
     <Compile Include="Data\ObjectTreeNode.cs" />
     <Compile Include="Data\Request.cs" />

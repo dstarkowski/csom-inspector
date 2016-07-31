@@ -14,12 +14,13 @@ namespace CsomInspector.Core.ObjectPaths
 			Parameters = parameters;
 		}
 
-		public override String Type => "Instance method";
-		public String Name { get; private set; }
-
-		public IEnumerable<Parameter> Parameters { get; private set; }
-
 		public override IEnumerable<IObjectTreeNode> Children => Parameters.Any(p => p.Value == null) ? Parameters : Enumerable.Empty<IObjectTreeNode>();
+
+		public String Name { get; }
+
+		public IEnumerable<Parameter> Parameters { get; }
+
+		public override String Type => "Instance method";
 
 		public override String ToString()
 		{
