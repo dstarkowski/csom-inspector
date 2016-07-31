@@ -26,7 +26,8 @@ namespace CsomInspector.Core.ObjectPaths
 				["gr"] = "Term group",
 				["se"] = "Term set",
 				["rd"] = "Role definition",
-				["ra"] = "Role assignment"
+				["ra"] = "Role assignment",
+				["navnode"] = "Navigation node"
 			};
 		}
 
