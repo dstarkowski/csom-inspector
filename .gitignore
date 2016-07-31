@@ -5,3 +5,5 @@
 /CsomInspector/.vs
 *.user
 /CsomInspector/packages
+*.pdb
+*.dll
