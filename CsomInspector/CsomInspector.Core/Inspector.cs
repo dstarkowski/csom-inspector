@@ -11,10 +11,12 @@ namespace CsomInspector.Core
 		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 		private const String _clientTagHeader = "X-ClientService-ClientTag";
 
-		public Inspector(String requestBody, String responseBody, IDictionary<String, String> requestHeaders)
+		public Inspector(String requestBody, String responseBody, IDictionary<String, String> requestHeaders, TimeSpan sessionTime)
 		{
 			_requestHeaders = requestHeaders;
 			_request = XDocument.Parse(requestBody);
+			_sessionTime = sessionTime;
+
 			try
 			{
 				_response = JArray.Parse(responseBody);
@@ -28,13 +30,16 @@ namespace CsomInspector.Core
 		private XDocument _request;
 		private JArray _response;
 		private IDictionary<String, String> _requestHeaders;
+		private TimeSpan _sessionTime;
 
 		public Request GetRequestData()
 		{
 			var rootElement = _request.Root;
 			var clientTag = _requestHeaders.ContainsKey(_clientTagHeader) ? _requestHeaders[_clientTagHeader] : String.Empty;
 
-			return Request.FromXml(rootElement, clientTag);
+			var request = Request.FromXml(rootElement, clientTag);
+
+			return request;
 		}
 
 		public IEnumerable<Actions.Action> GetActionsData()

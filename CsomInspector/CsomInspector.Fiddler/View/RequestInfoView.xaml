@@ -4,67 +4,99 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:CsomInspector.Fiddler.View">
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
+	<UserControl.Resources>
+		<Style TargetType="StackPanel">
+			<Setter Property="Orientation" Value="Horizontal"/>
+		</Style>
+		<Style TargetType="Label">
+			<Setter Property="Grid.Column" Value="0"/>
+		</Style>
+		<Style TargetType="TextBox">
+			<Setter Property="MinWidth" Value="200"/>
+			<Setter Property="IsReadOnly" Value="True"/>
+			<Setter Property="Grid.Column" Value="1"/>
+		</Style>
+	</UserControl.Resources>
 
-		<Label
-			Grid.Row="0"
-			Grid.Column="0"
-			Content="Application name" />
-		<TextBox
-			Grid.Row="0"
-			Grid.Column="1"
-			Text="{Binding ApplicationName, Mode=OneWay}"
-			IsReadOnly="True" />
+	<WrapPanel Grid.IsSharedSizeScope="True">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
 
-		<Label
-			Grid.Row="0"
-			Grid.Column="2"
-			Content="Client tag"/>
-		<TextBox
-			Grid.Row="0"
-			Grid.Column="3"
-			Text="{Binding ClientTag, Mode=OneWay}"/>
+			<Label Content="Application name" />
+			<TextBox Text="{Binding ApplicationName, Mode=OneWay}"/>
+		</Grid>
 
-		<Label
-			Grid.Row="1"
-			Grid.Column="0"
-			Content="Client library version" />
-		<TextBox
-			Grid.Row="1"
-			Grid.Column="1"
-			Text="{Binding ClientLibraryVersion, Mode=OneWay}"
-			IsReadOnly="True" />
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
+			
+			<Label Content="Client tag"/>
+			<TextBox Text="{Binding ClientTag, Mode=OneWay}"/>
+		</Grid>
 
-		<Label
-			Grid.Row="1"
-			Grid.Column="2"
-			Content="Server library version" />
-		<TextBox
-			Grid.Row="1"
-			Grid.Column="3"
-			Text="{Binding ServerLibraryVersion, Mode=OneWay}"
-			IsReadOnly="True" />
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
 
-		<Label
-			Grid.Row="2"
-			Grid.Column="0"
-			Content="Correlation ID"/>
-		<TextBox
-			Grid.Row="2"
-			Grid.Column="1"
-			Text="{Binding CorrelationId, Mode=OneWay}"
-			IsReadOnly="True"/>
-	</Grid>
+			<Label Content="Client library" />
+			<TextBox Text="{Binding ClientLibraryVersion, Mode=OneWay}"/>
+		</Grid>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Content="Server library" />
+			<TextBox Text="{Binding ServerLibraryVersion, Mode=OneWay}"/>
+		</Grid>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Content="Correlation ID"/>
+			<TextBox Text="{Binding CorrelationId, Mode=OneWay}"/>
+		</Grid>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Content="Request size"/>
+			<TextBox Text="{Binding RequestSize, Mode=OneWay}"/>
+		</Grid>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Content="Response size"/>
+			<TextBox Text="{Binding ResponseSize, Mode=OneWay}"/>
+		</Grid>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition SharedSizeGroup="Label"/>
+				<ColumnDefinition SharedSizeGroup="Value"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Content="Request time"/>
+			<TextBox Text="{Binding SessionTime, Mode=OneWay}"/>
+		</Grid>
+	</WrapPanel>
 </UserControl>

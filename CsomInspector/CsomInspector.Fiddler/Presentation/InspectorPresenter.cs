@@ -45,9 +45,12 @@ namespace CsomInspector.Fiddler.Presentation
 			var responseBody = session.GetResponseBodyAsString();
 			var requestHeaders = GetHeaders(session.RequestHeaders);
 
+			var timers = session.Timers;
+			var sessionTime = timers.ClientDoneResponse - timers.ClientBeginRequest;
+
 			try
 			{
-				var inspector = new Inspector(requestBody, responseBody, requestHeaders);
+				var inspector = new Inspector(requestBody, responseBody, requestHeaders, sessionTime);
 				var actions = inspector.GetActionsData();
 				var requestData = inspector.GetRequestData();
 				var responseData = inspector.GetResponseData();
@@ -56,13 +59,13 @@ namespace CsomInspector.Fiddler.Presentation
 				RequestViewModel.Actions = new ObservableCollection<Core.Actions.Action>(actions);
 				RequestViewModel.Results = results;
 				RequestViewModel.ErrorInfo = responseData.ErrorInfo;
-				RequestInfoViewModel.SetSessionData(requestData, responseData);
+				RequestInfoViewModel.SetSessionData(requestData, responseData, sessionTime, session.RequestBody.Length, session.ResponseBody.Length);
 			}
 			catch
 			{
 				RequestViewModel.Actions = new ObservableCollection<Core.Actions.Action>();
-				RequestViewModel.Results = Enumerable.Empty<Core.Result>();
-				RequestInfoViewModel.SetSessionData(null, null);
+				RequestViewModel.Results = Enumerable.Empty<Result>();
+				RequestInfoViewModel.ClearSessionData();
 			}
 		}
 
