@@ -1,24 +1,28 @@
-﻿using System;
+﻿using CsomInspector.Core.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace CsomInspector.Core.ObjectPaths
 {
-	public abstract class ObjectPath : IObjectTreeNode
+	public abstract class ObjectPath : ActionBase
 	{
-		protected ObjectPath(Int32 id)
+		public static ObjectPath FromXml(XElement pathElement, XElement actionElement)
 		{
-			Id = id;
+			var pathIdAttribute = pathElement.Attribute(XName.Get("Id"));
+			var actionIdAttribute = actionElement?.Attribute(XName.Get("Id"));
+
+			var path = CreatePath(pathElement);
+			path.ObjectPathId = Convert.ToInt32(pathIdAttribute.Value);
+
+			if (actionIdAttribute != null)
+			{
+				path.Id = Convert.ToInt32(actionIdAttribute.Value);
+			}
+
+			return path;
 		}
-
-		protected const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
-
-		public virtual IEnumerable<IObjectTreeNode> Children => Enumerable.Empty<IObjectTreeNode>();
-
-		public abstract String Type { get; }
-
-		public Int32 Id { get; }
 
 		public static IEnumerable<ObjectPath> FromXml(IEnumerable<XElement> pathElements, Int32 pathId)
 		{
@@ -36,8 +40,6 @@ namespace CsomInspector.Core.ObjectPaths
 
 			return results;
 		}
-
-		public override String ToString() => Type;
 
 		private static ObjectPath CreatePath(XElement element)
 		{

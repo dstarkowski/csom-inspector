@@ -5,10 +5,14 @@ using System.Xml.Linq;
 
 namespace CsomInspector.Core.Actions
 {
-	public class GenericAction : Action
+	public class GenericAction : ActionBase
 	{
-		private GenericAction(String name, IEnumerable<IObjectTreeNode> attributes, IEnumerable<IObjectTreeNode> elements) : base(name)
+		private String _name;
+
+		private GenericAction(String name, IEnumerable<IObjectTreeNode> attributes, IEnumerable<IObjectTreeNode> elements)
 		{
+			_name = name;
+
 			Children = attributes
 				.Concat(elements)
 				.ToList();
@@ -16,9 +20,9 @@ namespace CsomInspector.Core.Actions
 
 		public override IEnumerable<IObjectTreeNode> Children { get; }
 
-		public override String ToString() => $"{Name} (?)";
+		public override String ToString() => $"{_name} (?)";
 
-		internal static GenericAction FromXml(XElement actionElement)
+		internal static new GenericAction FromXml(XElement actionElement)
 		{
 			var name = actionElement.Name.LocalName;
 
@@ -37,11 +41,11 @@ namespace CsomInspector.Core.Actions
 			}
 
 			var value = actionElement.Value;
+
 			if (!String.IsNullOrWhiteSpace(value))
 			{
-				var valueNode = new[] {
-					new ObjectTreeNode($"Value = {value}", Enumerable.Empty<IObjectTreeNode>())
-				};
+				var valueNode = new[] { new ObjectTreeNode($"Value = {value}", Enumerable.Empty<IObjectTreeNode>()) };
+
 				return new GenericAction(name, attributes, valueNode);
 			}
 

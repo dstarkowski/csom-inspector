@@ -43,15 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\Action.cs" />
-    <Compile Include="Actions\ChildItemQuery.cs" />
+    <Compile Include="Actions\ActionBase.cs" />
+    <Compile Include="Actions\ChildItemQueryAction.cs" />
     <Compile Include="Actions\ExceptionHandlingScope.cs" />
     <Compile Include="Actions\GenericAction.cs" />
-    <Compile Include="Actions\Method.cs" />
-    <Compile Include="Actions\ObjectIdentityQuery.cs" />
-    <Compile Include="Actions\ObjectPathAction.cs" />
-    <Compile Include="Actions\Query.cs" />
-    <Compile Include="Actions\SetProperty.cs" />
+    <Compile Include="Actions\MethodAction.cs" />
+    <Compile Include="Actions\ObjectIdentityQueryAction.cs" />
+    <Compile Include="Actions\QueryAction.cs" />
+    <Compile Include="Actions\SetPropertyAction.cs" />
     <Compile Include="Data\ErrorInfo.cs" />
     <Compile Include="Data\ObjectTreeNode.cs" />
     <Compile Include="Data\Request.cs" />

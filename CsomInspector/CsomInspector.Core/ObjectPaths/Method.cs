@@ -8,7 +8,6 @@ namespace CsomInspector.Core.ObjectPaths
 	public class Method : ObjectPath
 	{
 		private Method(Int32 id, String name, IEnumerable<Parameter> parameters)
-			: base(id)
 		{
 			Name = name;
 			Parameters = parameters;
@@ -19,8 +18,6 @@ namespace CsomInspector.Core.ObjectPaths
 		public String Name { get; }
 
 		public IEnumerable<Parameter> Parameters { get; }
-
-		public override String Type => "Instance method";
 
 		public override String ToString()
 		{
@@ -38,7 +35,7 @@ namespace CsomInspector.Core.ObjectPaths
 			return $".{Name}({arguments})";
 		}
 
-		internal static Method FromXml(XElement element)
+		internal static new Method FromXml(XElement element)
 		{
 			var nameAttribute = element.Attribute(XName.Get("Name"));
 

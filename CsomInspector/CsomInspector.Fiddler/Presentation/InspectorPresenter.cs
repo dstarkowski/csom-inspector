@@ -1,4 +1,5 @@
 ﻿using CsomInspector.Core;
+using CsomInspector.Core.Actions;
 using CsomInspector.Fiddler.View;
 using Fiddler;
 using System;
@@ -54,17 +55,14 @@ namespace CsomInspector.Fiddler.Presentation
 				var actions = inspector.GetActionsData();
 				var requestData = inspector.GetRequestData();
 				var responseData = inspector.GetResponseData();
-				var results = inspector.GetResultsData();
 
-				RequestViewModel.Actions = new ObservableCollection<Core.Actions.Action>(actions);
-				RequestViewModel.Results = results;
+				RequestViewModel.Actions = new ObservableCollection<ActionBase>(actions);
 				RequestViewModel.ErrorInfo = responseData.ErrorInfo;
 				RequestInfoViewModel.SetSessionData(requestData, responseData, sessionTime, session.RequestBody.Length, session.ResponseBody.Length);
 			}
 			catch
 			{
-				RequestViewModel.Actions = new ObservableCollection<Core.Actions.Action>();
-				RequestViewModel.Results = Enumerable.Empty<Result>();
+				RequestViewModel.Actions = new ObservableCollection<ActionBase>();
 				RequestInfoViewModel.ClearSessionData();
 			}
 		}

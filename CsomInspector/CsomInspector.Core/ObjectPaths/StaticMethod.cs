@@ -8,21 +8,21 @@ namespace CsomInspector.Core.ObjectPaths
 	public class StaticMethod : ObjectPath
 	{
 		private StaticMethod(Int32 id, String name, String typeId, IEnumerable<Parameter> parameters)
-			: base(id)
 		{
 			Name = name;
 			TypeId = Guid.Parse(typeId);
 			Parameters = parameters;
 		}
 
-		public override String Type => "Static method";
-		public String Name { get; private set; }
-		public Guid TypeId { get; private set; }
-		public String TypeName => TypeMappings.Current.Get(TypeId);
-
-		public IEnumerable<Parameter> Parameters { get; private set; }
-
 		public override IEnumerable<IObjectTreeNode> Children => Parameters;
+
+		public String Name { get; }
+
+		public IEnumerable<Parameter> Parameters { get; }
+
+		public Guid TypeId { get; }
+
+		public String TypeName => TypeMappings.Current.Get(TypeId);
 
 		public override String ToString()
 		{
@@ -31,7 +31,7 @@ namespace CsomInspector.Core.ObjectPaths
 			return $"{TypeName}.{Name}({arguments})";
 		}
 
-		internal static StaticMethod FromXml(XElement element)
+		internal static new StaticMethod FromXml(XElement element)
 		{
 			var nameAttribute = element.Attribute(XName.Get("Name"));
 			var typeAttribute = element.Attribute(XName.Get("TypeId"));

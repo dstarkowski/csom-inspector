@@ -48,7 +48,7 @@
 			DataContext="{Binding RequestViewModel, Mode=OneWay}">
 
 			<TreeView
-				ItemsSource="{Binding ResultView, Mode=OneWay}"
+				ItemsSource="{Binding Results, Mode=OneWay}"
 				FontFamily="Consolas">
 				<TreeView.ItemTemplate>
 					<HierarchicalDataTemplate ItemsSource="{Binding Children}">

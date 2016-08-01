@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace CsomInspector.Core.Actions
 {
-	public class ExceptionHandlingScope : Action
+	public class ExceptionHandlingScope : ActionBase
 	{
-		protected ExceptionHandlingScope() : base("ExceptionHandlingScope")
+		protected ExceptionHandlingScope()
 		{
 		}
 
@@ -15,7 +15,7 @@ namespace CsomInspector.Core.Actions
 		};
 
 		public static ExceptionHandlingScope FromXml() =>
-					new ExceptionHandlingScope();
+			new ExceptionHandlingScope();
 
 		public override String ToString() => "ExceptionHandlingScope";
 	}

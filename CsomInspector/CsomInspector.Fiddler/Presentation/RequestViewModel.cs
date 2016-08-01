@@ -1,25 +1,19 @@
 ﻿using CsomInspector.Core;
-using System.Collections.Generic;
-using System.Linq;
-using Action = CsomInspector.Core.Actions.Action;
 using CsomInspector.Core.Actions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using CsomInspector.Core.ObjectPaths;
+using System.Linq;
 
 namespace CsomInspector.Fiddler.Presentation
 {
 	public class RequestViewModel : ViewModelBase
 	{
-		public RequestViewModel()
-		{
-		}
+		private ObservableCollection<ActionBase> _actions;
+		private ErrorInfo _errorInfo;
+		private ActionBase _selectedAction;
 
-		private ObservableCollection<Action> _actions;
-		private IEnumerable<Result> _results;
-		private Action _selectedAction;
-
-		public ObservableCollection<Action> Actions
+		public ObservableCollection<ActionBase> Actions
 		{
 			get
 			{
@@ -33,21 +27,34 @@ namespace CsomInspector.Fiddler.Presentation
 			}
 		}
 
-		public IEnumerable<Result> Results
+		public ErrorInfo ErrorInfo
 		{
 			get
 			{
-				return _results;
+				return _errorInfo;
 			}
 			set
 			{
-				_results = value;
+				_errorInfo = value;
 				RaisePropertyChanged(nameof(Results));
-				RaisePropertyChanged(nameof(ResultView));
 			}
 		}
 
-		public Action SelectedAction
+		public IEnumerable<IObjectTreeNode> Results
+		{
+			get
+			{
+				if (ErrorInfo != null)
+				{
+					return new[] { ErrorInfo };
+				}
+
+				return SelectedAction?.Results?
+					.SelectMany(result => result.Properties);
+			}
+		}
+
+		public ActionBase SelectedAction
 		{
 			get
 			{
@@ -61,64 +68,31 @@ namespace CsomInspector.Fiddler.Presentation
 
 				RaisePropertyChanged(nameof(Actions));
 				RaisePropertyChanged(nameof(SelectedAction));
-				RaisePropertyChanged(nameof(ResultView));
+				RaisePropertyChanged(nameof(Results));
 			}
 		}
 
-		private void HighlightActions(Action selectedAction)
-		{
-			var selectedPaths = selectedAction?.Path ?? Enumerable.Empty<ObjectPath>();
+		public IEnumerable<Result> SelectedResult => SelectedAction?.Results;
 
-			foreach (var action in _actions)
+		private void HighlightActions(ActionBase selectedAction)
+		{
+			if (selectedAction == null)
 			{
-				var lastPath = action.Path.LastOrDefault();
-				if (lastPath != null)
-				{
-					var isHighlighted = selectedPaths.Any(path => path.Id == lastPath.Id);
-					action.Highlight(isHighlighted);
-				}
+				return;
 			}
-		}
 
-		public Result SelectedResult
-		{
-			get
+			var pathIds = new List<Int32>();
+			pathIds.Add(selectedAction.ObjectPathId);
+
+			foreach (var action in _actions.Reverse())
 			{
-				if (SelectedAction != null)
+				var highlight = pathIds.Contains(action.ObjectPathId);
+				if (highlight)
 				{
-					return Results
-						.Where(r => r.ActionId == SelectedAction.Id)
-						.FirstOrDefault();
+					pathIds.Add(action.ObjectPathId);
 				}
 
-				return null;
-			}
-		}
-
-		private ErrorInfo _errorInfo;
-		public ErrorInfo ErrorInfo
-		{
-			get
-			{
-				return _errorInfo;
-			}
-			set
-			{
-				_errorInfo = value;
-				RaisePropertyChanged(nameof(ResultView));
-			}
-		}
-
-		public IEnumerable<IObjectTreeNode> ResultView
-		{
-			get
-			{
-				if (ErrorInfo != null)
-				{
-					return new[] { ErrorInfo };
-				}
-
-				return SelectedResult?.Properties;
+				action.Highlight(highlight);
 			}
 		}
 	}

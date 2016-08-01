@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CsomInspector.Core.Actions;
+using CsomInspector.Core.ObjectPaths;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,6 @@ namespace CsomInspector.Core
 {
 	public class Inspector
 	{
-		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
-		private const String _clientTagHeader = "X-ClientService-ClientTag";
-
 		public Inspector(String requestBody, String responseBody, IDictionary<String, String> requestHeaders, TimeSpan sessionTime)
 		{
 			_requestHeaders = requestHeaders;
@@ -27,10 +26,21 @@ namespace CsomInspector.Core
 			}
 		}
 
+		private const String _clientTagHeader = "X-ClientService-ClientTag";
+		private const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 		private XDocument _request;
-		private JArray _response;
 		private IDictionary<String, String> _requestHeaders;
+		private JArray _response;
 		private TimeSpan _sessionTime;
+
+		public List<ActionBase> GetActionsData()
+		{
+			var results = ParseResults();
+			var actions = ParseActions();
+			var objectPaths = ParseObjectPaths();
+
+			return MergeActions(actions, objectPaths, results);
+		}
 
 		public Request GetRequestData()
 		{
@@ -42,35 +52,85 @@ namespace CsomInspector.Core
 			return request;
 		}
 
-		public IEnumerable<Actions.Action> GetActionsData()
-		{
-			var actionsElement = _request.Root.Element(XName.Get("Actions", _elementNamespace));
-			var objectPathsElement = _request.Root.Element(XName.Get("ObjectPaths", _elementNamespace));
-			foreach (var action in actionsElement.Elements())
-			{
-				if (action.Name.LocalName != "ExceptionHandlingScope")
-				{
-					yield return Actions.Action.FromXml(action, objectPathsElement.Elements());
-				}
-				else
-				{
-					yield return Actions.ExceptionHandlingScope.FromXml();
-				}
-			}
-		}
-
 		public Response GetResponseData()
 		{
 			var responseElement = _response[0];
 			return Response.FromJson(responseElement);
 		}
 
-		public IEnumerable<Result> GetResultsData()
+		private List<ActionBase> MergeActions(IEnumerable<ActionBase> actions, IEnumerable<ActionBase> objectPaths, IEnumerable<Result> results)
 		{
-			var resultsElements = _response.Skip(1);
-			var results = Result.FromJson(resultsElements);
+			var mergedActions = actions
+				.Concat(objectPaths)
+				.OrderBy(action => action.Id)
+				.ToList();
 
-			return results.ToList();
+			foreach (var action in mergedActions)
+			{
+				action.Results = results
+					.Where(r => r.ActionId == action.Id || action.MergedActions.Any(a => a.Id == r.ActionId))
+					.ToList();
+			}
+
+			return mergedActions;
+		}
+
+		private IEnumerable<ActionBase> ParseActions()
+		{
+			var actionElements = _request.Root
+				.Element(XName.Get("Actions", _elementNamespace))
+				.Elements()
+				.Where(element => element.Name.LocalName != "ObjectPath")
+				.Where(element => element.Name.LocalName != "ExceptionHandlingScope")//TODO: Temp
+				.ToList();
+
+			foreach (var element in actionElements)
+			{
+				yield return ActionBase.FromXml(element);
+			}
+		}
+
+		private IEnumerable<ActionBase> ParseObjectPaths()
+		{
+			var elements = _request.Root
+				.Element(XName.Get("Actions", _elementNamespace))
+				.Elements();
+
+			var actionElements = elements
+				.Where(element => element.Name.LocalName == "ObjectPath");
+
+			var objectPathElements = _request.Root
+				.Element(XName.Get("ObjectPaths", _elementNamespace))
+				.Elements();
+
+			foreach (var objectPath in objectPathElements)
+			{
+				var id = objectPath
+					.Attribute(XName.Get("Id"))
+					.Value;
+
+				var action = actionElements
+					.Where(a => a.Attribute(XName.Get("ObjectPathId")).Value == id)
+					.SingleOrDefault();
+
+				yield return ObjectPath.FromXml(objectPath, action);
+			}
+		}
+
+		private Result[] ParseResults()
+		{
+			var resultsCount = (_response.Count - 1) / 2;
+			var results = new Result[resultsCount];
+
+			for (var i = 0; i < resultsCount; i++)
+			{
+				var actionIdToken = _response[i * 2 + 1];
+				var resultToken = _response[i * 2 + 2];
+
+				results[i] = Result.FromJson(actionIdToken, resultToken);
+			}
+
+			return results;
 		}
 	}
 }

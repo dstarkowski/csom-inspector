@@ -14,26 +14,14 @@ namespace CsomInspector.Core
 			Properties = properties;
 		}
 
-		public static IEnumerable<Result> FromJson(IEnumerable<JToken> tokens)
+		public static Result FromJson(JToken actionIdToken, JToken resultToken)
 		{
-			var resultsCount = tokens.Count() / 2;
+			var actionId = actionIdToken.Value<Int32>();
+			var properties = ResultProperty
+				.FromJson(resultToken.Children())
+				.ToList();
 
-			for (int i = 0; i < resultsCount; i++)
-			{
-				var actionId = tokens
-					.Skip(i * 2)
-					.First()
-					.Value<Int32>();
-
-				var resultToken = tokens
-					.Skip(i * 2)
-					.Skip(1)
-					.First();
-
-				var properties = ResultProperty.FromJson(resultToken.Children());
-
-				yield return new Result(actionId, properties);
-			}
+			return new Result(actionId, properties);
 		}
 
 		public Int32 ActionId { get; }

@@ -6,16 +6,13 @@ using System.Xml.Linq;
 
 namespace CsomInspector.Core.Actions
 {
-	public class SetProperty : Action
+	public class SetPropertyAction : ActionBase
 	{
-		private SetProperty(String name, Parameter parameter)
-			: base("SetProperty")
+		private SetPropertyAction(String name, Parameter parameter)
 		{
 			PropertyName = name;
 			Parameter = parameter;
 		}
-
-		protected const String _elementNamespace = "http://schemas.microsoft.com/sharepoint/clientquery/2009";
 
 		public override IEnumerable<IObjectTreeNode> Children =>
 			Parameter.Value == null ? new[] { Parameter } : Enumerable.Empty<IObjectTreeNode>();
@@ -40,7 +37,7 @@ namespace CsomInspector.Core.Actions
 			return $".{PropertyName} = {arguments}";
 		}
 
-		internal static SetProperty FromXml(XElement actionElement)
+		internal static new SetPropertyAction FromXml(XElement actionElement)
 		{
 			var nameAttribute = actionElement.Attribute(XName.Get("Name"));
 			var parameterElements = actionElement.Elements(XName.Get("Parameter", _elementNamespace));
@@ -49,7 +46,7 @@ namespace CsomInspector.Core.Actions
 				.FromXml(parameterElements)
 				.FirstOrDefault();
 
-			return new SetProperty(nameAttribute.Value, parameter);
+			return new SetPropertyAction(nameAttribute.Value, parameter);
 		}
 	}
 }

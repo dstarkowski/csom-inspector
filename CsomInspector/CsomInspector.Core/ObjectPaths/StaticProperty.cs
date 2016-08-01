@@ -6,20 +6,20 @@ namespace CsomInspector.Core.ObjectPaths
 	public class StaticProperty : ObjectPath
 	{
 		private StaticProperty(Int32 id, String name, String typeId)
-			: base(id)
 		{
 			Name = name;
 			TypeId = Guid.Parse(typeId);
 		}
 
-		public override String Type => "Static property";
-		public String Name { get; private set; }
-		public Guid TypeId { get; private set; }
+		public String Name { get; }
+
+		public Guid TypeId { get; }
+
 		public String TypeName => TypeMappings.Current.Get(TypeId);
 
 		public override String ToString() => $"{TypeName}.{Name}";
 
-		internal static StaticProperty FromXml(XElement element)
+		internal static new StaticProperty FromXml(XElement element)
 		{
 			var nameAttribute = element.Attribute(XName.Get("Name"));
 			var typeAttribute = element.Attribute(XName.Get("TypeId"));
