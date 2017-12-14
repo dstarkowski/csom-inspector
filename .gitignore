@@ -1,9 +1,9 @@
-﻿/CsomInspector/CsomInspector.Core/bin
-/CsomInspector/CsomInspector.Core/obj
-/CsomInspector/CsomInspector.Fiddler/bin
-/CsomInspector/CsomInspector.Fiddler/obj
-/CsomInspector/.vs
+﻿/src/CsomInspector.Core/bin
+/src/CsomInspector.Core/obj
+/src/CsomInspector.Fiddler/bin
+/src/CsomInspector.Fiddler/obj
+/src/.vs
 *.user
-/CsomInspector/packages
+/src/packages
 *.pdb
 *.dll
