@@ -83,13 +83,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CsomInspector.Core\CsomInspector.Core.csproj">
-      <Project>{19449c78-0c36-4afa-99e5-6f5f7de11e10}</Project>
-      <Name>CsomInspector.Core</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\CsomInspector.Core\bin\Debug\CsomInspector.Core.dll">
       <Link>Dependencies\CsomInspector.Core.dll</Link>
     </EmbeddedResource>

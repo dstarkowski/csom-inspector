@@ -1,0 +1,4 @@
+C:\tfs\csom-inspector\CsomInspector\CsomInspector.Core\bin\Debug\CsomInspector.Core.dll
+C:\tfs\csom-inspector\CsomInspector\CsomInspector.Core\bin\Debug\CsomInspector.Core.pdb
+C:\tfs\csom-inspector\CsomInspector\CsomInspector.Core\obj\Debug\CsomInspector.Core.dll
+C:\tfs\csom-inspector\CsomInspector\CsomInspector.Core\obj\Debug\CsomInspector.Core.pdb
